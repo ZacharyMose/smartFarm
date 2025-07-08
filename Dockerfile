@@ -1,14 +1,24 @@
-# Use a lightweight Java 17 base image
-FROM eclipse-temurin:17-jdk-alpine
+# ---------- Build Stage ----------
+FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy the built JAR file into the container
-COPY build/libs/SmartFarm.jar app.jar
+# Copy all project files
+COPY . .
 
-# Expose port (Render sets a dynamic port, we will bind to it later)
+# Build the Spring Boot project and skip tests (optional)
+RUN mvn clean package -DskipTests
+
+# ---------- Runtime Stage ----------
+FROM eclipse-temurin:17-jdk-alpine
+
+WORKDIR /app
+
+# Copy the built JAR from the previous build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose the port (Render will override this dynamically)
 EXPOSE 8080
 
-# Start the Spring Boot application
+# Run the Spring Boot app
 CMD ["java", "-jar", "app.jar"]
