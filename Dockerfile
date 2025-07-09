@@ -10,7 +10,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # ---------- Runtime Stage ----------
-FROM eclipse-temurin:21-jdk-alpine  # <--- Changed from 17 to 21
+FROM eclipse-temurin:21-jdk-alpine
 
 WORKDIR /app
 
