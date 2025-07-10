@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class ActuatorStatusData {
     @Id
+    Long id;
     private String device;
     private String action;
 }

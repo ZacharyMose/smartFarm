@@ -15,6 +15,7 @@ import java.util.List;
 public class ActuatorController {
 
     private final ActuatorService service;
+    private final ActuatorRepository repository;
 
     @PostMapping("/control")
     public ResponseEntity<String> control(@RequestBody ActuatorStatusData status) {
@@ -23,9 +24,9 @@ public class ActuatorController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<ActuatorStatusData> status(@RequestParam String device) {
-        return service.getStatus(device)
-                .map(ResponseEntity::ok)
+    public ResponseEntity<String> status(@RequestParam Long id) {
+        return  repository.findById(id)
+                .map(device -> ResponseEntity.ok(device.getAction()))
                 .orElse(ResponseEntity.notFound().build());
     }
 }
