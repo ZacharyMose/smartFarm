@@ -19,14 +19,13 @@ public class ActuatorController {
 
     @PostMapping("/control")
     public ResponseEntity<String> control(@RequestBody ActuatorStatusData status) {
-        service.setStatus(status.getDevice(), status.getAction());
+        service.setStatus(status.getDevice(), status.getStatus());
         return ResponseEntity.ok("Command sent");
     }
 
     @GetMapping("/status")
-    public ResponseEntity<String> status(@RequestParam String device) {
-        return  repository.findByDevice(device)
-                .map(dev -> ResponseEntity.ok(dev.getAction()))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ActuatorResponse> status(@RequestParam String device) {
+        ActuatorResponse response = service.getStatus(device);
+        return ResponseEntity.ok(response);
     }
 }

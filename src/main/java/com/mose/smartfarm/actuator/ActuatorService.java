@@ -16,7 +16,11 @@ public class ActuatorService {
         repository.save(new ActuatorStatusData(device, action));
     }
 
-    public Optional<ActuatorStatusData> getStatus(String device) {
-        return repository.findById(device);
+    public ActuatorResponse getStatus(String device) {
+        ActuatorStatusData actuator = repository
+                .findTopByDeviceOrderByUpdatedAtDesc(device.toLowerCase())
+                .orElse(new ActuatorStatusData(device, "unknown"));
+
+        return new ActuatorResponse(actuator.getDevice(),actuator.getStatus(),actuator.getUpdatedAt());
     }
 }
