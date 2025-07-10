@@ -23,7 +23,7 @@ public class ActuatorController {
         return ResponseEntity.ok("Command sent");
     }
 
-    @GetMapping("/status")
+    @GetMapping("/{id}/status")
     public ResponseEntity<String> status(@RequestParam Long id) {
         return  repository.findById(id)
                 .map(device -> ResponseEntity.ok(device.getAction()))
