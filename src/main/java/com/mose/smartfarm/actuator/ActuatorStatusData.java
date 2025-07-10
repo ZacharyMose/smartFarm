@@ -1,6 +1,8 @@
 package com.mose.smartfarm.actuator;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 public class ActuatorStatusData {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     private String device;
     private String status;
