@@ -8,4 +8,5 @@ import java.util.Optional;
 @Repository
 public interface ActuatorRepository extends JpaRepository<ActuatorStatusData, String> {
     Optional<ActuatorStatusData> findById(Long id);
+    Optional<ActuatorStatusData> findByDevice(String device);
 }
