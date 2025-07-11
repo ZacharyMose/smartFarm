@@ -19,8 +19,24 @@ public class ActuatorController {
 
     @PostMapping("/control")
     public ResponseEntity<String> control(@RequestBody ActuatorStatusData status) {
-        service.setStatus(status.getDevice(), status.getStatus());
-        return ResponseEntity.ok("Command sent");
+        if (status == null || status.getDevice() == null || status.getStatus() == null) {
+            return ResponseEntity.badRequest().body("Device or status is missing.");
+        }
+
+        String device = status.getDevice().toLowerCase();
+        String action = status.getStatus().toLowerCase();
+
+        if (!action.equals("on") && !action.equals("off")) {
+            return ResponseEntity.badRequest().body("Invalid action. Use 'on' or 'off'.");
+        }
+
+        try {
+            service.setStatus(device, action);
+            return ResponseEntity.ok("Device " + device + " turned " + action);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log to backend
+            return ResponseEntity.internalServerError().body("Failed to control device.");
+        }
     }
 
     @GetMapping("/status")

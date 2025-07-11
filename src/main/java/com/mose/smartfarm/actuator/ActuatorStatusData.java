@@ -22,8 +22,8 @@ public class ActuatorStatusData {
     private String status;
     private LocalDateTime updatedAt;
 
-    public ActuatorStatusData(String device, String action) {
+    public ActuatorStatusData(String device, String status) {
         this.device = device;
-        this.status = action;
+        this.status = status;
     }
 }
