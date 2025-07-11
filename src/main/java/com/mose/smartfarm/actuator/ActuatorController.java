@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,13 +26,14 @@ public class ActuatorController {
 
         String device = status.getDevice().toLowerCase();
         String action = status.getStatus().toLowerCase();
+        LocalDateTime updatedAt = status.getUpdatedAt() != null ? status.getUpdatedAt() : LocalDateTime.now();
 
         if (!action.equals("on") && !action.equals("off")) {
             return ResponseEntity.badRequest().body("Invalid action. Use 'on' or 'off'.");
         }
 
         try {
-            service.setStatus(device, action);
+            service.setStatus(device, action,updatedAt);
             return ResponseEntity.ok("Device " + device + " turned " + action);
         } catch (Exception e) {
             e.printStackTrace(); // Log to backend
