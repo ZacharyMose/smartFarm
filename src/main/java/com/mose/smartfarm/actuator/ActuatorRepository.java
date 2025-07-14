@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ActuatorRepository extends JpaRepository<ActuatorStatusData, String> {
+public interface ActuatorRepository extends JpaRepository<ActuatorStatusData, Long> {
     Optional<ActuatorStatusData> findById(Long id);
-    Optional<ActuatorStatusData> findTopByDeviceOrderByUpdatedAtDesc(String device);
+    Optional<ActuatorStatusData> findTopByDeviceIgnoreCaseOrderByUpdatedAtDesc(String device);
 }

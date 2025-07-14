@@ -19,7 +19,7 @@ public class ActuatorService {
 
     public ActuatorResponse getStatus(String device) {
         ActuatorStatusData actuator = repository
-                .findTopByDeviceOrderByUpdatedAtDesc(device.toLowerCase())
+                .findTopByDeviceIgnoreCaseOrderByUpdatedAtDesc(device.toLowerCase())
                 .orElse(new ActuatorStatusData(device,"off",LocalDateTime.now()));
         System.out.println("All devices in DB:");
         repository.findAll().forEach(System.out::println);
